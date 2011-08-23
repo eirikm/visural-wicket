@@ -22,12 +22,13 @@ var visural_dropdowns = [];
 var visural_datasources = [];
 
 function reverseMap(mapArray,makeUpper) {
-    var revMap = [];
-    for (var mv in mapArray) {
+    var revMap = {};
+    var mv;
+    for (mv in mapArray) {
         if (makeUpper) {
-            revMap[mapArray[mv].toString().toUpperCase()] = mv;
+            revMap[mapArray[mv].value.toString().toUpperCase()] = mv.toString();
         } else {
-            revMap[mapArray[mv]] = mv;
+            revMap[mapArray[mv].value.toString()] = mv.toString();
         }
     }
     return revMap;
@@ -369,19 +370,27 @@ function visural_select_dropdown(controlid, rowId) {
 }
 function visural_dropdown_focus(controlid) {
     if (!visural_dropdowns[controlid].inOpen) {
+        visural_dropdowns[controlid].keyedText = '';
         visural_dropdowns[controlid].open();
     }
 }
 function visural_dropdown_blur(controlid) {
     if (visural_dropdowns[controlid].closeOnBlur && !visural_dropdowns[controlid].inClose) {
         if (!visural_dropdowns[controlid].allowAnyValue) {
-            if (visural_dropdowns[controlid].valueControl.val()) {
-                if (visural_dropdowns[controlid].idControl.val() > -1) {
-                    visural_dropdowns[controlid].selectRowByDSIdx(visural_dropdowns[controlid].idControl.val());
+            var val = visural_dropdowns[controlid].valueControl.val();
+            if (val) {
+                // atempt lookup by value
+                var idx = visural_datasources[visural_dropdowns[controlid].dataSourceName].indexForValue(val);
+                if (idx === -1) {
+                    if (visural_dropdowns[controlid].idControl.val() > -1) {
+                        visural_dropdowns[controlid].selectRowByDSIdx(visural_dropdowns[controlid].idControl.val());
+                    } else {                                            
+                        visural_dropdowns[controlid].idControl.val('');
+                        visural_dropdowns[controlid].valueControl.val('');
+                    }
                 } else {
-                    visural_dropdowns[controlid].idControl.val('');
-                    visural_dropdowns[controlid].valueControl.val('');
-                }
+                    visural_dropdowns[controlid].selectRowByDSIdx(idx);
+                }           
             } else {
                 // set id to blank
                 visural_dropdowns[controlid].idControl.val('');
