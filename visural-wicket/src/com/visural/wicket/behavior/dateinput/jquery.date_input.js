@@ -128,14 +128,14 @@ DateInput.prototype = {
         this.changeInput($(event.target).attr("date"));
       }));
       
-      $("td[date=" + this.dateToString(new Date()) + "]", this.tbody).addClass("today");
+      $('td[date="' + this.dateToString(new Date()) + '"]', this.tbody).addClass("today");
       
       $("td.selectable_day", this.tbody).mouseover(function() { $(this).addClass("hover") });
       $("td.selectable_day", this.tbody).mouseout(function() { $(this).removeClass("hover") });
     };
     
     $('.selected', this.tbody).removeClass("selected");
-    $('td[date=' + this.selectedDateString + ']', this.tbody).addClass("selected");
+    $('td[date="' + this.selectedDateString + '"]', this.tbody).addClass("selected");
   },
   
   selectDate: function(date) {

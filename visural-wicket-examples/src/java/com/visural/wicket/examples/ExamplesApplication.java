@@ -40,6 +40,7 @@ public class ExamplesApplication extends WebApplication {
         }
         getResourceSettings().setResourcePollFrequency(null);
         getResourceSettings().setResourceStreamLocator(new LessCSSResourceStreamLocator(getResourceFinder()));
+        getDebugSettings().setOutputComponentPath(true);
     }
 //
 //    @Override

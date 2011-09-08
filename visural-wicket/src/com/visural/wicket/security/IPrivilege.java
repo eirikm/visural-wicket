@@ -23,14 +23,14 @@ package com.visural.wicket.security;
  * @version $Id: IPrivilege.java 256 2011-02-05 12:06:02Z tibes80@gmail.com $
  * @author Richard Nichols
  */
-public interface IPrivilege {
+public interface IPrivilege<T extends IClient> {
 
     /**
      * Determine whether the privilege applies to the client.
      * @param client
      * @return
      */
-    boolean isGrantedToClient(IClient client);
+    boolean isGrantedToClient(T client);
 
     // -----------------
 

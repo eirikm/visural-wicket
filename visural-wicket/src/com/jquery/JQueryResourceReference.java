@@ -27,7 +27,9 @@ public class JQueryResourceReference extends PackageResourceReference {
     public enum Version {
 
         V1_3_2("jquery-1.3.2.min.js"),
-        V1_4_2("jquery-1.4.2.min.js");
+        V1_4_2("jquery-1.4.2.min.js"),
+        V1_6_3("jquery-1.6.3.min.js");
+        
         private final String filename;
 
         private Version(String filename) {

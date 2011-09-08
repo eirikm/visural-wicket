@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.wicket.Application;
 import org.apache.wicket.Component;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.behavior.Behavior;
@@ -71,6 +72,7 @@ import org.apache.wicket.util.convert.IConverter;
 public class DropDown<T> extends TextField<T> implements Serializable, ISecureEnableInstance, ISecureRenderInstance {
     private static final long serialVersionUID = 1L;
     
+    private final boolean outputPath;    
     private final DropDownDataSource source;
     private final boolean requireListValue;
     private String origMarkupId;
@@ -78,14 +80,21 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
     private boolean enableFilterToggle = true;
     private boolean showArrowIcon = true;
     private Integer overrideWidth = null;
+    
 
     public DropDown(String id, DropDownDataSource source, boolean requireListValue) {
         this(id, null, source, requireListValue);
     }
 
     public DropDown(String id, IModel<T> model, DropDownDataSource source, boolean requireListValue) {
-        super(id, model);
-        this.source = source;
+        this(id, model, null, source, requireListValue);
+    }
+    
+    public DropDown(String id, IModel<T> model, Class<T> type, DropDownDataSource source, boolean requireListValue) {
+        super(id, model, type);
+        this.outputPath = Application.get().getDebugSettings().isOutputComponentPath();
+        
+        this.source = source;        
         this.requireListValue = requireListValue;
     }
 
@@ -120,7 +129,14 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
                     } else if (DropDown.this.getModelObject() != null) {
                         value = DropDown.this.source.getDescriptionForValue(DropDown.this.getModelObject());
                     }
-                    component.getResponse().write("<input "+(DropDown.this.isEnabled() ? "" : "disabled ")+"type='text' "+getFlattenedValueAttributes()+" value=\""+StringUtil.htmlAttributeEscape(value)+"\" id='visural_dropdown_value_"+origMarkupId+"'/>");
+                    component.getResponse().write(
+                            String.format(
+                                "<input %s type='text' %s value=\"%s\" id='visural_dropdown_value_%s' %s/>",
+                                    DropDown.this.isEnabled() ? "" : "disabled ",
+                                    getFlattenedValueAttributes(),
+                                    StringUtil.htmlAttributeEscape(value),
+                                    origMarkupId,
+                                    outputPath ? "wicketpath=\""+getPageRelativePath()+"_vwdd\"" : ""));
                 } else {
                     component.getResponse().write("<input type='hidden' id='visural_dropdown_id_"+origMarkupId+"'/>");
                 }

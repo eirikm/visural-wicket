@@ -57,7 +57,7 @@ public abstract class BasePage extends WebPage {
     public static final boolean IS_PROD_MODE = new File("/tmp").exists(); // generally run on a linux host for net deploy
 
     public BasePage() {
-        add(new WebMarkupContainer("jquery").add(new SimpleAttributeModifier("src", urlFor(new JQueryResourceReference(Version.V1_4_2), new PageParameters()))));
+        add(new WebMarkupContainer("jquery").add(new SimpleAttributeModifier("src", urlFor(new JQueryResourceReference(Version.V1_6_3), new PageParameters()))));
         add(new Label("pageTitle", new PageTitleModel(false)));
         add(new Label("pageTitleHeader", new PageTitleModel(true)).setEscapeModelStrings(false));
         add(new BookmarkablePageLink("tabsLink", TabsExamplePage.class));
