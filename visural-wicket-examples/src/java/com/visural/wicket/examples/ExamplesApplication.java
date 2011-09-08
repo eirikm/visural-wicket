@@ -33,7 +33,7 @@ import org.apache.wicket.session.ISessionStore;
 public class ExamplesApplication extends WebApplication {
 
     public ExamplesApplication() {
-        addRenderHeadListener(JavascriptPackageResource.getHeaderContribution(new JQueryResourceReference(Version.V1_4_2)));
+        addRenderHeadListener(JavascriptPackageResource.getHeaderContribution(new JQueryResourceReference(Version.V1_6_3)));
     }
 
     @Override
