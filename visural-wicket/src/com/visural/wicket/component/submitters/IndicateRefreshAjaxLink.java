@@ -133,18 +133,20 @@ public abstract class IndicateRefreshAjaxLink extends AjaxLink implements ISecur
     protected IAjaxCallDecorator getAjaxCallDecorator() {
         return new AjaxCallDecorator() {
 
-            public CharSequence decorateScript(CharSequence script) {
+            @Override
+            public CharSequence decorateScript(Component c, CharSequence script) {
                 return getAjaxImageReplaceScript()+script;
             }
 
-            public CharSequence decorateOnSuccessScript(CharSequence script) {
+            @Override
+            public CharSequence decorateOnSuccessScript(Component c, CharSequence script) {
                 return getAjaxImageUnreplaceScript();
             }
 
-            public CharSequence decorateOnFailureScript(CharSequence script) {
+            @Override
+            public CharSequence decorateOnFailureScript(Component c, CharSequence script) {
                 return getAjaxImageUnreplaceScript();
             }
-
         };
     }
 

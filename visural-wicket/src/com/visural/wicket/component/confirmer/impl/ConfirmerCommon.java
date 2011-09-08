@@ -133,17 +133,20 @@ public class ConfirmerCommon implements Serializable {
     public IAjaxCallDecorator getAjaxCallDecorator() {
         return new AjaxCallDecorator() {
 
-            public CharSequence decorateScript(CharSequence script) {
+            @Override
+            public CharSequence decorateOnFailureScript(Component c, CharSequence script) {
+                return getModalCloseScript();
+            }
+
+            @Override
+            public CharSequence decorateOnSuccessScript(Component c, CharSequence script) {
+                return getModalCloseScript();
+            }
+
+            @Override
+            public CharSequence decorateScript(Component c, CharSequence script) {
                 setOnClickJS(""+script);
                 return getModalDisplayScript();
-            }
-
-            public CharSequence decorateOnSuccessScript(CharSequence script) {
-                return getModalCloseScript();
-            }
-
-            public CharSequence decorateOnFailureScript(CharSequence script) {
-                return getModalCloseScript();
             }
         };
     }

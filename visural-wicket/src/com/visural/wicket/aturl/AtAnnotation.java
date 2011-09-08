@@ -68,28 +68,26 @@ public class AtAnnotation {
     private static void mountPage(WebApplication app, Class page) {
         At at = (At) page.getAnnotation(At.class);
         switch (at.type()) {
-            case Standard:
-                StringBuilder url = new StringBuilder(at.url());
-                for (String param : at.urlParameters()) {
-                    url.append("/${").append(param).append("}");
+            case Standard: 
+            case StateInURL: 
+                {            
+                    StringBuilder url = new StringBuilder(at.url());
+                    for (String param : at.urlParameters()) {
+                        url.append("/#{").append(param).append("}"); // all optional
+                    }
+                    app.mount(new MountedMapper(url.toString(), page));
                 }
-                app.mount(new MountedMapper(url.toString(), page));
                 break;
-            case Indexed:
-                // TODO:
-                throw new UnsupportedOperationException("Not yet supported.");
-                //app.mount(new IndexedParamUrlCodingStrategy(at.url(), page));
-                //break;
-            case StateInURL:
-                // TODO:
-                throw new UnsupportedOperationException("Not yet supported.");
-                //app.mount(new HybridUrlCodingStrategy(at.url(), page));
-                //break;
+            case Indexed: 
             case IndexedStateInURL:
-                // TODO:
-                throw new UnsupportedOperationException("Not yet supported.");
-                //app.mount(new IndexedHybridUrlCodingStrategy(at.url(), page));
-                //break;
+                {
+                    StringBuilder url = new StringBuilder(at.url());
+                    for (int n = 0; n < 10; n++) {
+                        url.append("/#{").append(n).append("}");
+                    }
+                    app.mount(new MountedMapper(url.toString(), page));
+                }
+                break;
         }
 
     }

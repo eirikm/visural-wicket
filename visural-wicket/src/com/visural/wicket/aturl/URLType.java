@@ -27,5 +27,14 @@ public enum URLType {
     , Indexed
     , StateInURL
     , IndexedStateInURL
+    , MountedMapper /* Encoder for mounted URL. The mount path can contain 
+                     * parameter placeholders, i.e. /mount/${foo}/path. In that 
+     * case the appropriate segment from the URL will be accessible as named 
+     * parameter "foo" in the PageParameters. Similarly when the URL is constructed, 
+     * the second segment will contain the value of the "foo" named page parameter. 
+     * Optional parameters are denoted by using a # instead of $: /mount/#{foo}/path/${bar} 
+     * has an optional foo parameter, a fixed /path/ part and a required bar parameter. 
+     * When in doubt, parameters are matched from left to right, where required parameters
+     * are matched before optional parameters, and optional parameters eager (from left to right). */
     ;
 }
