@@ -90,7 +90,11 @@ public class DropDown<T> extends TextField<T> implements Serializable, ISecureEn
     }
 
     public DropDown(String id, IModel<T> model, DropDownDataSource source, boolean requireListValue) {
-        super(id, model);
+        this(id, model, null, source, requireListValue);
+    }
+    
+    public DropDown(String id, IModel<T> model, Class<T> type, DropDownDataSource source, boolean requireListValue) {
+        super(id, model, type);
         this.outputPath = Application.get().getDebugSettings().isOutputComponentPath();
         
         this.source = source;        
