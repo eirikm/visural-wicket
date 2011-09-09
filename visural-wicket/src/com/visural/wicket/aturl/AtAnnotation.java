@@ -88,6 +88,11 @@ public class AtAnnotation {
                     app.mount(new MountedMapper(url.toString(), page));
                 }
                 break;
+            case MountedMapper:
+                {
+                    app.mount(new MountedMapper(at.url(), page));
+                }
+                break;
         }
 
     }
