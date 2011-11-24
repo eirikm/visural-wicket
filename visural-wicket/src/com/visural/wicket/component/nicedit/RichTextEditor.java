@@ -22,7 +22,7 @@ import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
 import com.visural.wicket.util.RenderAsInlineBlockComponentBorder;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -86,7 +86,7 @@ public class RichTextEditor<T> extends TextArea<T> implements ISecureEnableInsta
         return "new nicEditor("+getConfigString()+").panelInstance('"+this.getMarkupId()+"');";
     }
 
-    private Map<String, Boolean> buttons = new HashMap<String, Boolean>();
+    private Map<String, Boolean> buttons = new LinkedHashMap<String, Boolean>();
     private Integer maxHeight = null;
 
     private void loadDefaultButtonConfig() {
@@ -124,13 +124,13 @@ public class RichTextEditor<T> extends TextArea<T> implements ISecureEnableInsta
 
         config.append("buttonList : [");
         boolean addComma = false;
-        for (String button : buttons.keySet()) {
-            if (buttons.get(button)) {
+        for (Map.Entry<String,Boolean> button : buttons.entrySet()) {
+            if (button.getValue()) {
                 if (addComma) {
                     config.append(",");
                 }
                 config.append("'");
-                config.append(button);
+                config.append(button.getKey());;
                 config.append("'");
                 addComma = true;
             }
