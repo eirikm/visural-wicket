@@ -20,7 +20,9 @@ import com.visural.wicket.security.IPrivilege;
 import com.visural.wicket.security.ISecureEnableInstance;
 import com.visural.wicket.security.ISecureRenderInstance;
 import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.basic.MultiLineLabel;
 import org.apache.wicket.markup.html.form.AbstractChoice;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -72,7 +74,7 @@ public class ViewOrEdit extends FormComponentPanel implements ISecureRenderInsta
     public final static String COMP_ID = "component";
 
     private final FormComponent component;
-    private Label label;
+    private WebComponent label;
 
     public ViewOrEdit(String id, FormComponent component) {
         this(id, component, null, null);
@@ -178,6 +180,14 @@ public class ViewOrEdit extends FormComponentPanel implements ISecureRenderInsta
                 }
             };
         }
+        if (TextArea.class.isAssignableFrom(component.getClass())) {
+            label = new MultiLineLabel("viewLabel", labelModel);
+            label.setEscapeModelStrings(isEscapeLabelModelStrings());
+            Fragment f = new Fragment("controlPair", "textarea", this);
+            f.add(label);
+            f.add(component);
+            return f;
+        }
         label = new Label("viewLabel", labelModel);
         label.setEscapeModelStrings(isEscapeLabelModelStrings());
         if (TextField.class.isAssignableFrom(component.getClass())) {
@@ -188,12 +198,6 @@ public class ViewOrEdit extends FormComponentPanel implements ISecureRenderInsta
         }
         if (CheckBox.class.isAssignableFrom(component.getClass())) {
             Fragment f = new Fragment("controlPair", "checkbox", this);
-            f.add(label);
-            f.add(component);
-            return f;
-        }
-        if (TextArea.class.isAssignableFrom(component.getClass())) {
-            Fragment f = new Fragment("controlPair", "textarea", this);
             f.add(label);
             f.add(component);
             return f;
